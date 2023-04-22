@@ -9,6 +9,7 @@ const API_URL = "https://www.omdbapi.com/?i=tt3896198&apikey=dd4e8195";
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [types, setTypes] = useState([]);
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -23,6 +24,10 @@ const App = () => {
 
     setMovies(data.Search);
     setIsLoading(false);
+
+    const Types = [...new Set(data.Search.map((Val) => Val.Type))];
+    setTypes(Types);
+    console.log(Types);
   };
 
   return (
@@ -46,8 +51,8 @@ const App = () => {
         <>
           {movies?.length > 0 ? (
             <div className='container'>
-              {movies.map((movie) => (
-                <MovieCard movie={movie} />
+              {movies.map((movie, key) => (
+                <MovieCard movie={movie} key={movie.imdbID} />
               ))}
             </div>
           ) : (
